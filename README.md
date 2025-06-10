@@ -1,12 +1,12 @@
 # embedded-learning
 an embedded jorney for myself to learning all about
 
-THIS FOR MY LEARNING of EMBEDDED SYSYEM
+This is for my learning journey in Embedded System
 
-##The Main Purporse
+## The Main Purporse
 Learning and Practicing Embedded System form Arduino level to bare metal embedded engineer professional.
 
-##Tools which used in this course
+## Tools which used in this course
 - ESP32
 - Arduino (Nano, Mega)
 - Raspberry Pi 5
