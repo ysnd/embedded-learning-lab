@@ -1,9 +1,9 @@
-# embedded-learning
+# Embedded Learning
 an embedded jorney for myself to learning all about
 
 This is for my learning journey in Embedded System
 
-## The Main Purporse
+## The Main Purpose
 Learning and Practicing Embedded System form Arduino level to bare metal embedded engineer professional.
 
 ## Tools which used in this course
