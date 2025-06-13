@@ -1,0 +1,9 @@
+#ignore all build folder subdirectores
+**/build/
+**/sdkconfig.old
+**/*.elf
+**/*.bin
+**/*.map
+**/.vscode/
+
+
