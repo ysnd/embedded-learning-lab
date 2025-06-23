@@ -3,4 +3,4 @@
 cmake_minimum_required(VERSION 3.16)
 
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(peripheral-i2c-lcd16x2-manual)
+project(i2c-lcd16x2-manual)
