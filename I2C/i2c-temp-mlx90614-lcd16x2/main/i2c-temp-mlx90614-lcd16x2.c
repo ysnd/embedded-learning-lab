@@ -87,7 +87,7 @@ void lcd_print(const char* str) {
         lcd_data((uint8_t)*str++);
     }
 }
-
+//read
 float mlx_read_temp(uint8_t reg) {
     uint8_t data[3];
         i2c_cmd_handle_t cmd = i2c_cmd_link_create();
