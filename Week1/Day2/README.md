@@ -1,2 +1,0 @@
-## What i did
-First i want to build some simple project for practicing embedded outside arduino framework, i decide to used PlatformIO with esp-idf Frameworks but i tought it just same with arduino ide and i think the good way to learning real embedded is with esp-idf native and i yesterday download esp-idf and installed on my laptop. because take a longtime for cloning repos and installed or build i just practicing git for more experience like comand useful for my repo like git status, git add, git branch, git merge and etc.
