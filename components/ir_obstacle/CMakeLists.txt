@@ -1,0 +1,4 @@
+idf_component_register(SRCS "ir_obstacle.c"
+    INCLUDE_DIRS "include"
+    REQUIRES driver
+    )
