@@ -13,7 +13,7 @@ This component is a basic driver for IR obstacle sensors.
 ```c
 ir_obstacle_t sensor;
 ir_obstacle_init(&sensor, GPIO);
-
+```
 2. Read sensor state using `ir_obstacle_read();`
 
 ## Notes
