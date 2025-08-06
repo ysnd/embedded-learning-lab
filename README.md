@@ -1,29 +1,43 @@
-# Embedded Learning
-an embedded jorney for myself to learning all about
+# Embedded Learning Journey ESP-IDF
+This repo documents my personal journey to learning / practicing deeply embedded system
+
+---
 
 This is for my learning journey in Embedded System
 
-## The Main Purpose
-Learning and Practicing Embedded System form Arduino level to bare metal embedded engineer professional.
+## Purpose
+- Practic low level embedded programing using ESP32 and ESP-IDF
+- Rebuild foundation knowledge of microconroller system
+- Learn modular driver from stratch
 
-## Tools which used in this course
+---
+
+## Roadmap
+| Stage | Description|
+|-------|------------| 
+| **Peripheral Practice** | Low level priactice of GPIO, ADC, PWM, UART, I2C, etc. |
+| **Modular Driver Buliding** | Implementing and testing sensor drivers in both **manual-coded** and **modular** formats using ESP-IDF component system. |
+| **Project1** | Integrate multiple sensors/modules into a function embedded system |
+| **ESP-IDF Special Features** | Explore deeper features like Wi-Fi, ESP-NOW, Deep Sleep, Interrupts, etc. |
+| **Final Project** | Combine all concepts into lager system |
+
+---
+
+## Tools used 
 - ESP32
 - Arduino (Nano, Mega)
-- Raspberry Pi 5
-- Some kind of sensors we have
-- Linux OS
+- Some kind sensors i have
+- OS: Linux
 
-## Time of Learning
-Start in: 10 June 2025
-Target: Learning intens fully in 1 month
+---
+## Repository Structure
+
+| Folder | Description |
+|--------|-------------|
+| `GPIO/`, `ADC`/, etc | peripheral learning practice file |
+| `component/` | manual-coded and modular driver building file |
+
+## Notes
+Enjoy the process :)
 
 
-## Main Topic
-1. Review C for Embedded
-2. Microcontroller (register level, GPIO, interrupt, timer)
-3. Embedded peripheral (UART, SPI, I2C, PWM, ADC)
-4. FreeRTOS
-6. Git & Github
-7. Raspberry Pi for edge computing / server IoT
-
-Please Help me to my jorney and enjoy the moment :)
