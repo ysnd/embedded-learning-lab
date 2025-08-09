@@ -24,7 +24,7 @@ motor_init(&driver);
 
 2. Controlling direction & speed :
 
-``c
+```c
 motor_forward(&driver, int speed);
 motor_backward(&driver, int speed);
 motor_turn_left(&driver, int speed);
