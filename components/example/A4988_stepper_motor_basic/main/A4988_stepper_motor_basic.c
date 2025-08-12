@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
-#include "freertos/projdefs.h"
 #include "freertos/task.h"
 #include "A4988.h"
 
