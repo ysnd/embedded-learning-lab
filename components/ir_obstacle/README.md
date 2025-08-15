@@ -18,5 +18,6 @@ ir_obstacle_init(&sensor, GPIO);
 
 ## Notes
 - Sensor output is assumed to be *active LOW* when obstacle is detected.
+- see example usage in `../components/example/ir_obstacle_basic/`
 - This component is a basic library for IR obstacle sensors, created as part of learning process on how to build modular components in ESP-IDF.
 
