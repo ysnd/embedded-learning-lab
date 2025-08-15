@@ -18,5 +18,6 @@ pir_sensor_init(&sensor, pin);
 2. Read sensor state using `pir_sensor_is_motiondetected();`
 
 ## Notes
+- see example usage in `../components/example/pir_sensor_basic/`
 - This component is a basic library for PIR sensors, created as part of learning process on how to build modular components in ESP-IDF.
 
