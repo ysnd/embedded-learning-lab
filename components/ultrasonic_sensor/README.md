@@ -24,6 +24,7 @@ float distance = ultrasonic_multiple_read_cm(&sensor);
 ```
 
 ## Notes
+- see example usage in `../components/example/ultrasonic_basic/`
 - Timeout is 100ms to prevent lockup if echo not received.
 - This component is a basic library for water sensors, created as part of learning process on how to build modular components in ESP-IDF.
 
