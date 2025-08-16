@@ -17,6 +17,7 @@ sound_sensor_init(&sensor, GPIO);
 2. Read sensor state using `sound_sensor_is_detected();`
 
 ## Notes
+- see example usage in `../components/example/sound_sensor_basic/`
 - This component is a basic library for sound sensors, created as part of learning process on how to build modular components in ESP-IDF.
 
 
