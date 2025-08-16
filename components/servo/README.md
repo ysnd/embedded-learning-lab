@@ -17,6 +17,7 @@ servo_init(&my_servo, gpio_num, channel);
 2. Set servo angle using `servo_write(&my_servo, 90); // Move to 90 degrees`
 
 ## Notes
+- see example usage in `../components/example/servo-basic/`
 - This component is a basic library for servo control, created as part of the learning process on how to build modular components in ESP-IDF.
 - Ensure your servo has a proper power supply.
 - Default configuration is for 50Hz PWM frequency with ~1-2ms pulse width range.
