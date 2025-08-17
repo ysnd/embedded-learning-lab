@@ -35,7 +35,7 @@ stepper_move(STEPPER_DIR_CCW, 2048, 15, STEPPER_MODE_FULL_STEP); //CCW, 2048 ste
 - `void stepper_init(stepper_config_t *conf);`
 - `void stepper_move(stepper_direction_t dir, uint32_t steps, uint32_t speed, stepper_mode_t mode);`
 
-# Parameters
+## Parameters
 
 | Parameter | Description|
 | --- | --- |
