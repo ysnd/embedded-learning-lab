@@ -20,12 +20,12 @@ motor_driver_t driver = {
 };
 
 motor_init(&driver);
-```
+``` 
 
 2. Controlling direction & speed :
 
 ```c
-motor_forward(&driver, int speed);
+motor_forward(&driver, int speed); 
 motor_backward(&driver, int speed);
 motor_turn_left(&driver, int speed);
 motor_turn_right(&driver, int speed);
@@ -34,6 +34,7 @@ motor_stop(&driver);
 
 
 ## Notes
+- see example usage in `../components/example/dc_motor_basic/`
 - This component is a basic library for control motors, created as part of the learning process on how to build modular components in ESP-IDF.
 - Ensure your H-Bridge has a proper power supply.
 
