@@ -6,7 +6,7 @@ This folder is for learning how to create libraries for ESP-IDF using several se
 ## Structure
 - `../[lib]/` Contains the libraries I create for my own components/sensors.
 - `../example/` Contains example ESP-IDF projects that demonstrate how to use the libraries.
-- `../manual-coded/` Contains projects components/sensors I have, written manually without using library. Used as a comparsion with modular.
+- `../hardcoded/` Contains projects components/sensors I have, written manually without using library. Used as a comparsion with modular.
 
 ## Checklist
 
@@ -17,8 +17,8 @@ This folder is for learning how to create libraries for ESP-IDF using several se
 | Ultrasonic | **✔** | **✔** | **✔** |
 | Servo | **✔** | **✔** | **✔** |
 | DC-Motor | **✔** | **✔** | **✔** |
-| Stepper 28BYJ-48 |  |  |  |
-| DHT11 |  |  |  |
+| Stepper 28BYJ-48 | **✔**| **✔** | **✔** |
+| DHT11 | **✔** | **✔** | **✔** |
 | DS18B20 |  | |  |
 | LCD 16x2 |  | |  |
 | Color sensor tcs34725 |  | |  |
@@ -27,6 +27,6 @@ This folder is for learning how to create libraries for ESP-IDF using several se
 
 
 ## Purpose
-- Practice designing reuseable drivers using c and ESP-IDF
+- Practice designing reuseable drivers using C and ESP-IDF
 - Compare hardcoded vs modular components
 - Test each module through example usage
