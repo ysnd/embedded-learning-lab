@@ -32,6 +32,8 @@ void app_main(void)
         vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
+
+
 ```
 
 ## Reference
@@ -39,7 +41,7 @@ void app_main(void)
 | Function | Description |
 | --- | --- |
 | `mlx_init(mlx_conf_t *cfg)` | Init MLX90614 sensor & I2C |
-| `mlx_read_temperature_object();`| Clear the screen |
+| `mlx_read_temperature_object();`| Read temperature object |
 | `mlx_read_temperature_ambient();` | Read temperature ambient |
 
 ## Notes
