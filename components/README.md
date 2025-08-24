@@ -19,10 +19,13 @@ This folder is for learning how to create libraries for ESP-IDF using several se
 | DC-Motor | **✔** | **✔** | **✔** |
 | Stepper 28BYJ-48 | **✔**| **✔** | **✔** |
 | DHT11 | **✔** | **✔** | **✔** |
-| DS18B20 |  | |  |
-| LCD 16x2 |  | |  |
-| Color sensor tcs34725 |  | |  |
-| MLX90614 |  | |  |
+| DS18B20 | **✔** | **✔** | **✔** |
+| LCD 16x2 | **✔** | **✔** | **✔** |
+| Color sensor tcs34725 | **✔** | **✔** | **✔** |
+| MLX90614 | **✔** | **✔** | **✔** |
+| BMP280 |  | |  |
+| SSD1306 |  | |  |
+| MPU6050 |  | |  |
 | RFID RC522 |  | |  |
 
 
