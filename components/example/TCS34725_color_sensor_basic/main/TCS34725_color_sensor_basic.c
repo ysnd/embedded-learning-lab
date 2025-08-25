@@ -14,6 +14,7 @@ void app_main(void)
         .freq_hz = 100000
     };
     tcs34725_init(&tcs);
+    
 
     while (1) {
         uint16_t c, r, g, b;
