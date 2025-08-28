@@ -80,8 +80,10 @@ void bmp280_init(bmp280_conf_t *conf) {
     cal.dig_P8 = buf[20] | (buf[21] << 8);
     cal.dig_P9 = buf[22] | (buf[23] << 8);
 // bmp280_start_measurement
-    i2c_write_reg(0xF4, 0xB7);
-    i2c_write_reg(0xF5, 0x1C);
+    uint8_t ctrl_meas = (conf->osrs_t << 5) | (conf->osrs_p << 2) | (conf->mode);
+    i2c_write_reg(0xF4, ctrl_meas);
+    uint8_t config = (conf->stby_t << 5) | (conf->filter << 2);
+    i2c_write_reg(0xF5, config);
 }
 
 static void bmp280_read_raw(int32_t *raw_press, int32_t *raw_temp) {
