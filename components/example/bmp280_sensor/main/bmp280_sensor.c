@@ -10,7 +10,12 @@ void app_main(void)
         .i2c_port = I2C_NUM_0,
         .sda_pin = 21,
         .scl_pin = 22,
-        .freq_hz = 100000
+        .freq_hz = 100000,
+        .osrs_t = OVRSAMP_X16,
+        .osrs_p = OVRSAMP_X16,
+        .mode = PWR_MODE_NORMAL,
+        .stby_t = STBY_T_1000,
+        .filter = FLTR_4
     };
     bmp280_init(&bmp);
 
