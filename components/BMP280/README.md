@@ -44,7 +44,7 @@ This component is a basic driver for BMP280 barometric pressure temperature sens
 | --- | --- |
 | `.osrs_t`, `.osrs_p` | Oversampling temperature & pressure : `OVRSAMP_SKIP`, `OVRSAMP_X0`, `OVRSAMP_X2`, `OVRSAMP_X4`, `OVRSAMP_X8`, `OVRSAMP_X16` |
 | `.mode` | Power mode : `PWR_MODE_SLEEP`, `PWR_MODE_FORCED`, `PWR_MODE_NORMAL` |
-| `.stby_t` | Standby time : `STBY_T_-1_5`, `STBY_T_62_5`, `STBY_T_125`, `STBY_T_250`, STBY_T_500`,`STBY_T_1000`, `STBY_T_2000`, `STBY_T_4000` |
+| `.stby_t` | Standby time : `STBY_T_-1_5`, `STBY_T_62_5`, `STBY_T_125`, `STBY_T_250`, `STBY_T_500`,`STBY_T_1000`, `STBY_T_2000`, `STBY_T_4000` |
 | `.filter` | Filter : `FLTR_OFF`, `FLTR_1`, `FLTR_4`, `FLTR_8`, `FLTR_16` |
 
 ## Reference
