@@ -23,10 +23,10 @@ This folder is for learning how to create libraries for ESP-IDF using several se
 | LCD 16x2 | **✔** | **✔** | **✔** |
 | Color sensor tcs34725 | **✔** | **✔** | **✔** |
 | MLX90614 | **✔** | **✔** | **✔** |
-| BMP280 |  | |  |
-| SSD1306 |  | |  |
-| MPU6050 |  | |  |
-| RFID RC522 |  | |  |
+| BMP280 | **✔** | **✔** | **✔** |
+| SSD1306 | **✔** | **✔** | **✔** |
+| MPU6050 | **✔** |  |  |
+| RFID RC522 |  |  |  |
 
 
 ## Purpose
