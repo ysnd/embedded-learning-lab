@@ -3,7 +3,7 @@
 This component is a basic driver for reading DS18B20 temperature sensor using ESP-IDF.
 
 ## Features
-- Read temperature in Celcius
+- Read temperature in Celsius
 - Range -55...+125 C
 - Support one or multiple sensors
 - Simple and reusable
@@ -22,7 +22,7 @@ ds18b20_init(sensor_pin);
 
 ```c
 float temperatur = ds18b20_read_temp(sensor_pin);
-printf("Suhu : %.2f Celcius\n", temperatur);
+printf("Suhu : %.2f Celsius\n", temperatur);
 vTaskDelay(pdMS_TO_TICKS(1000));
 ```
 
