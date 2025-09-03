@@ -3,9 +3,9 @@
 This component is a basic driver for BMP280 barometric pressure temperature sensor using ESP-IDF.
 
 ## Features
-- Read temperature value.
-- Read pressure value.
-- Read altitude value.
+- Read temperature value in Celsius.
+- Read pressure value in Pa.
+- Read altitude value in m.
 - Simple and reusable.
 
 ## How to Use
@@ -53,7 +53,7 @@ This component is a basic driver for BMP280 barometric pressure temperature sens
 | --- | --- |
 | `bmp280_init(bmp280_conf_t *conf)` | Init BMP280 sensor & I2C |
 | `void bmp280_update_raw()`| Read update raw sensor value |
-| `bmp280_get_temp()` | Read temperature value in Celcius degree |
+| `bmp280_get_temp()` | Read temperature value in Celsius degree |
 | `bmp280_get_pressure()` | Read pressure value in (Pa) |
 | `bmp280_get_altitude()` | Read altitude value in (m) |
 
