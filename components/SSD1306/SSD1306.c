@@ -5,7 +5,6 @@
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "esp_log.h"
-#include "include/SSD1306.h"
 
 static ssd1306_conf_t ssd1306_conf;
 
@@ -15,7 +14,7 @@ static ssd1306_conf_t ssd1306_conf;
 static uint8_t display_buffer[SSD1306_WIDTH * SSD1306_HEIGHT / 8];
 
 static const uint8_t font_5x7[][5] = {
-{0x00, 0x00, 0x00, 0x00, 0x00}, // spasi (32)
+	{0x00, 0x00, 0x00, 0x00, 0x00}, // spasi (32)
     {0x00, 0x00, 0x5F, 0x00, 0x00}, // ! (33)
     {0x00, 0x07, 0x00, 0x07, 0x00}, // " (34)
     {0x14, 0x7F, 0x14, 0x7F, 0x14}, // # (35)
@@ -193,7 +192,7 @@ void ssd1306_init(ssd1306_conf_t *conf) {
     ssd1306_command(0xAF); // Display ON
 }
 
-void ssd1306_clear_buffer(void) {
+void ssd1306_clear(void) {
     for(int i=0; i<SSD1306_WIDTH*SSD1306_HEIGHT/8; i++)
         display_buffer[i] = 0x00;
 }
@@ -207,25 +206,45 @@ void ssd1306_update_display(void) {
     }
 }
 
-void ssd1306_draw_char(int x, int y ,char c) {
-    if (c<32||c>127) return;
-    int index = c-32;
-    for (int i=0; i<5; i++) {
-        uint8_t col=font_5x7[index][i];
-        for (int j=0; j<8; j++) {
-            if (col&(1<<j)) {
-                int page = (y+j)/8;
-                int bit = (y+j)%8;
-                display_buffer[page*SSD1306_WIDTH+(x+i)]|=(1<<bit);
+
+void ssd1306_draw_char(int x, int y, char c, bool invert) {
+    if (c < 32 || c > 127) return;
+    int index = c - 32;
+
+    // Loop 6 kolom: 5 kolom font + 1 kolom spasi
+    for (int i = 0; i < 6; i++) {
+        uint8_t col = (i < 5) ? font_5x7[index][i] : 0x00; // kolom font atau spasi
+
+        for (int j = 0; j < 8; j++) {
+            bool pixel_on = col & (1 << j);
+            int page = (y + j) / 8;
+            int bit = (y + j) % 8;
+            int pos = page * SSD1306_WIDTH + (x + i);
+
+            if (invert) {
+                // background putih
+                display_buffer[pos] |= (1 << bit);
+
+                // tulis huruf jadi hitam
+                if (pixel_on) {
+                    display_buffer[pos] &= ~(1 << bit);
+                }
+            } else {
+                if (pixel_on) {
+                    display_buffer[pos] |= (1 << bit);
+                }
             }
         }
     }
 }
 
-void ssd1306_draw_string(int x, int y, const char* str) {
+
+
+
+void ssd1306_draw_string(int x, int y, const char* str, bool invert) {
     int cursor = x;
     while (*str) {
-        ssd1306_draw_char(cursor, y, *str);
+        ssd1306_draw_char(cursor, y, *str, invert);
         cursor+=6;
         str++;
     }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stdint.h>
+#include <stdbool.h>
 
 #define SSD1306_ADDR 0x3C
 
@@ -12,6 +13,6 @@ typedef struct {
 } ssd1306_conf_t;
 
 void ssd1306_init(ssd1306_conf_t *conf);
-void ssd1306_clear_buffer(void);
+void ssd1306_clear(void);
 void ssd1306_update_display(void);
-void ssd1306_draw_string(int x, int y, const char* str);
+void ssd1306_draw_string(int x, int y, const char* str, bool invert);
