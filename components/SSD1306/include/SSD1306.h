@@ -16,3 +16,5 @@ void ssd1306_init(ssd1306_conf_t *conf);
 void ssd1306_clear(void);
 void ssd1306_update_display(void);
 void ssd1306_draw_string(int x, int y, const char* str, bool invert);
+void ssd1306_draw_rect(int x, int y, int w, int h, bool color);
+void ssd1306_fill_rect(int x, int y, int w, int h, bool color);

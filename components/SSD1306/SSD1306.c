@@ -238,14 +238,44 @@ void ssd1306_draw_char(int x, int y, char c, bool invert) {
     }
 }
 
-
-
-
 void ssd1306_draw_string(int x, int y, const char* str, bool invert) {
     int cursor = x;
     while (*str) {
         ssd1306_draw_char(cursor, y, *str, invert);
         cursor+=6;
         str++;
+    }
+}
+
+void ssd1306_draw_pixel(int x, int y, bool color) {
+    if (x < 0 || x>= SSD1306_WIDTH || y < 0 || y >= SSD1306_HEIGHT) return;
+    
+    int page = y / 8;
+    int bit = y % 8;
+    int pos = page * SSD1306_WIDTH + x;
+
+    if (color) {
+        display_buffer[pos] |= (1 << bit);
+    } else {
+        display_buffer[pos] &= ~(1 << bit);
+    }
+}
+
+void ssd1306_draw_rect(int x, int y, int w, int h, bool color) {
+    for (int i= x; i < x + w; i++) {
+        ssd1306_draw_pixel(i, y, color);
+        ssd1306_draw_pixel(i, y + h - 1, color);
+    }
+    for (int j = y; j < y +h; j++) {
+        ssd1306_draw_pixel(x, j, color);
+        ssd1306_draw_pixel(x + w - 1, j, color);
+    }
+}
+
+void ssd1306_fill_rect(int x, int y, int w, int h, bool color) {
+    for (int i = x; i < x + w; i++) {
+        for (int j = y; j < y + h; j++) {
+            ssd1306_draw_pixel(i, j, color);
+        }
     }
 }
