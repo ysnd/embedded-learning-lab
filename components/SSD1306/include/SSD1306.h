@@ -20,3 +20,5 @@ void ssd1306_draw_rect(int x, int y, int w, int h, bool color);
 void ssd1306_fill_rect(int x, int y, int w, int h, bool color);
 void ssd1306_draw_circle(int x0, int y0, int r, bool color);
 void ssd1306_fill_circle(int x0, int y0, int r, bool color);
+void ssd1306_draw_triangle(int x0, int y0, int x1, int y1, int x2, int y2, bool color);
+void ssd1306_fill_triangle(int x0, int y0, int x1, int y1, int x2, int y2, bool color);

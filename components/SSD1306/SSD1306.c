@@ -314,3 +314,73 @@ void ssd1306_fill_circle(int x0, int y0, int r, bool color) {
         }
     }
 }
+
+void ssd1306_draw_line(int x0, int y0, int x1, int y1, bool color) {
+    int dx = abs(x1 - x0), sx = x0 < x1 ? 1 : -1;
+    int dy = -abs(y1 - y0), sy = y0 < y1 ? 1 : -1;
+    int err = dx + dy, e2;
+
+    while (true) {
+        ssd1306_draw_pixel(x0, y0, color);
+        if (x0 == x1 && y0 == y1) break;
+        e2 = 2 * err;
+        if (e2 >= dy) { err += dy; x0 += sx; }
+        if (e2 <= dx) { err += dx; y0 += sy; }
+    }
+}
+
+void ssd1306_draw_triangle(int x0, int y0, int x1, int y1, int x2, int y2, bool color) {
+    ssd1306_draw_line(x0, y0, x1, y1, color);
+    ssd1306_draw_line(x1, y1, x2, y2, color);
+    ssd1306_draw_line(x2, y2, x0, y0, color);
+}
+
+void ssd1306_fill_triangle(int x0, int y0, int x1, int y1, int x2, int y2, bool color) {
+    int16_t a, b, y, last;
+
+    // Sort by Y (y0 <= y1 <= y2)
+    if (y0 > y1) { int t; t=y0; y0=y1; y1=t; t=x0; x0=x1; x1=t; }
+    if (y1 > y2) { int t; t=y1; y1=y2; y2=t; t=x1; x1=x2; x2=t; }
+    if (y0 > y1) { int t; t=y0; y0=y1; y1=t; t=x0; x0=x1; x1=t; }
+
+    if (y0 == y2) { // Flat
+        a = b = x0;
+        if (x1 < a) a = x1; else if (x1 > b) b = x1;
+        if (x2 < a) a = x2; else if (x2 > b) b = x2;
+        ssd1306_draw_line(a, y0, b, y0, color);
+        return;
+    }
+
+    int dx01 = x1 - x0, dy01 = y1 - y0,
+        dx02 = x2 - x0, dy02 = y2 - y0,
+        dx12 = x2 - x1, dy12 = y2 - y1;
+
+    int sa = 0, sb = 0;
+
+    if (y1 == y2) last = y1;
+    else last = y1-1;
+
+    for (y = y0; y <= last; y++) {
+        a = x0 + sa / dy01;
+        b = x0 + sb / dy02;
+        sa += dx01;
+        sb += dx02;
+
+        if (a > b) { int t=a; a=b; b=t; }
+        ssd1306_draw_line(a, y, b, y, color);
+    }
+
+    sa = dx12 * (y - y1);
+    sb = dx02 * (y - y0);
+    for (; y <= y2; y++) {
+        a = x1 + sa / dy12;
+        b = x0 + sb / dy02;
+        sa += dx12;
+        sb += dx02;
+
+        if (a > b) { int t=a; a=b; b=t; }
+        ssd1306_draw_line(a, y, b, y, color);
+    }
+}
+
+
