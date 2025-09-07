@@ -279,3 +279,38 @@ void ssd1306_fill_rect(int x, int y, int w, int h, bool color) {
         }
     }
 }
+
+void ssd1306_draw_circle(int x0, int y0, int r, bool color) {
+    int x = r;
+    int y = 0;
+    int err = 0;
+
+    while (x >= y) {
+        ssd1306_draw_pixel(x0 + x, y0 + y, color);
+        ssd1306_draw_pixel(x0 + y, y0 + x, color);
+        ssd1306_draw_pixel(x0 - y, y0 + x, color);
+        ssd1306_draw_pixel(x0 - x, y0 + y, color);
+        ssd1306_draw_pixel(x0 - x, y0 - y, color);
+        ssd1306_draw_pixel(x0 - y, y0 - x, color);
+        ssd1306_draw_pixel(x0 + y, y0 - x, color);
+        ssd1306_draw_pixel(x0 + x, y0 - y, color);
+
+        y += 1;
+        if (err <= 0) {
+            err += 2*y + 1;
+        } else {
+            x -= 1;
+            err += 2*(y - x) + 1;
+        }
+    }
+}
+
+void ssd1306_fill_circle(int x0, int y0, int r, bool color) {
+    for (int y = -r; y <= r; y++) {
+        for (int x = -r; x <= r; x++) {
+            if (x*x + y*y <= r*r) {
+                ssd1306_draw_pixel(x0 + x, y0 + y, color);
+            }
+        }
+    }
+}

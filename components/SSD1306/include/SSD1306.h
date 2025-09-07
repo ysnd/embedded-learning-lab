@@ -18,3 +18,5 @@ void ssd1306_update_display(void);
 void ssd1306_draw_string(int x, int y, const char* str, bool invert);
 void ssd1306_draw_rect(int x, int y, int w, int h, bool color);
 void ssd1306_fill_rect(int x, int y, int w, int h, bool color);
+void ssd1306_draw_circle(int x0, int y0, int r, bool color);
+void ssd1306_fill_circle(int x0, int y0, int r, bool color);
