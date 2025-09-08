@@ -4,6 +4,10 @@ This component is a basic driver for SSD1306 OLED I2C Display using ESP-IDF.
 
 ## Features
 - Display character.
+- Draw circle.
+- Draw rectangle.
+- Draw triangle.
+- Scroll object animation. 
 - Simple and reusable.
 
 ## How to Use
@@ -42,6 +46,17 @@ This component is a basic driver for SSD1306 OLED I2C Display using ESP-IDF.
 | `ssd1306_clear_buffer()`| Clear display |
 | `ssd1306_draw_string(int x, int y, const char* str)` | Display character string |
 | `ssd1306_update_display()` | Update character / string in display |
+| `ssd1306_draw_rect(int x, int y, int w, int h, bool color)` | Draw outline rectangular |
+| `ssd1306_fill_rect(int x, int y, int w, int h, bool color)` | Draw fill rectangular |
+| `ssd1306_draw_circle(int x0, int y0, int r, bool color)` | Draw outline circle |
+| `ssd1306_fill_circle(int x0, int y0, int r, bool color)` | Draw fill circle |
+| `ssd1306_draw_triangle(int x0, int y0, int x1, int y1, int x2, int y2, bool color)` | Draw outline triangle |
+| `ssd1306_fill_triangle(int x0, int y0, int x1, int y1, int x2, int y2, bool color)` | Draw fill triangle |
+| `ssd1306_scroll_right(uint8_t start_page, uint8_t end_page, uint8_t frame_interval)` | Scroll object right |
+| `ssd1306_scroll_left(uint8_t start_page, uint8_t end_page, uint8_t frame_interval)` | Scroll object left |
+| `ssd1306_scroll_diag_right( uint8_t start_page, uint8_t end_page, uint8_t frame_interval, uint8_t offset)` | Scroll object diagonal right |
+| `ssd1306_scroll_diag_left( uint8_t start_page, uint8_t end_page, uint8_t frame_interval, uint8_t offset)` | Scroll object diagonal left |
+| `ssd1306_stop_scroll()` | Stop scroll |
 
 
 
