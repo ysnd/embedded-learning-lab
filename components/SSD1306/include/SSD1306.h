@@ -22,3 +22,8 @@ void ssd1306_draw_circle(int x0, int y0, int r, bool color);
 void ssd1306_fill_circle(int x0, int y0, int r, bool color);
 void ssd1306_draw_triangle(int x0, int y0, int x1, int y1, int x2, int y2, bool color);
 void ssd1306_fill_triangle(int x0, int y0, int x1, int y1, int x2, int y2, bool color);
+void ssd1306_scroll_right(uint8_t start_page, uint8_t end_page, uint8_t frame_interval);
+void ssd1306_scroll_left(uint8_t start_page, uint8_t end_page, uint8_t frame_interval);
+void ssd1306_scroll_diag_right( uint8_t start_page, uint8_t end_page, uint8_t frame_interval, uint8_t offset);
+void ssd1306_scroll_diag_left( uint8_t start_page, uint8_t end_page, uint8_t frame_interval, uint8_t offset);
+void ssd1306_stop_scroll(void);

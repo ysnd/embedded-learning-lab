@@ -383,4 +383,51 @@ void ssd1306_fill_triangle(int x0, int y0, int x1, int y1, int x2, int y2, bool 
     }
 }
 
+void ssd1306_scroll_right(uint8_t start_page, uint8_t end_page, uint8_t frame_interval) 
+{
+    ssd1306_command(0x26); //right horizontral scrol   
+    ssd1306_command(0x00); // dummy
+    ssd1306_command(start_page & 0x07); // start page 0-7
+    ssd1306_command(frame_interval & 0x07); // interval speed
+    ssd1306_command(end_page & 0x07); //eend page 0-7
+    ssd1306_command(0x00);
+    ssd1306_command(0xFF);
+    ssd1306_command(0x2F); // active scroll 
+}
+
+void ssd1306_scroll_left(uint8_t start_page, uint8_t end_page, uint8_t frame_interval)
+{
+    ssd1306_command(0x27);
+    ssd1306_command(0x00);
+    ssd1306_command(start_page & 0x07);
+    ssd1306_command(frame_interval & 0x07);
+    ssd1306_command(end_page & 0x07);
+    ssd1306_command(0x00);
+    ssd1306_command(0xFF);
+    ssd1306_command(0x2F);
+}
+
+void ssd1306_scroll_diag_right( uint8_t start_page, uint8_t end_page, uint8_t frame_interval, uint8_t offset) {
+    ssd1306_command(0x29);
+    ssd1306_command(0x00);
+    ssd1306_command(start_page & 0x07);
+    ssd1306_command(frame_interval & 0x07);
+    ssd1306_command(end_page & 0x07);
+    ssd1306_command(offset);
+    ssd1306_command(0x2F);
+}
+
+void ssd1306_scroll_diag_left( uint8_t start_page, uint8_t end_page, uint8_t frame_interval, uint8_t offset) {
+    ssd1306_command(0x2A);
+    ssd1306_command(0x00);
+    ssd1306_command(start_page & 0x07);
+    ssd1306_command(frame_interval & 0x07);
+    ssd1306_command(end_page & 0x07);
+    ssd1306_command(offset);
+    ssd1306_command(0x2F);
+}
+
+void ssd1306_stop_scroll(void) {
+    ssd1306_command(0x2E);
+}
 
