@@ -26,7 +26,7 @@ This folder is for learning how to create libraries for ESP-IDF using several se
 | BMP280 | **✔** | **✔** | **✔** |
 | SSD1306 | **✔** | **✔** | **✔** |
 | MPU6050 | **✔** | **✔** | **✔** |
-| RFID RC522 |  |  |  |
+| RFID RC522 | **✔** | **✔** | **✔** |
 
 
 ## Purpose
