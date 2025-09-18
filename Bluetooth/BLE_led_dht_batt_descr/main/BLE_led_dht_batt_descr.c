@@ -1,5 +1,3 @@
-#include <stdbool.h>
-#include <stdint.h>
 #include <stdio.h>
 #include <string.h>
 #include "esp_err.h"
@@ -29,7 +27,7 @@
 #define BATTERY_SERVICE_UUID 0x180F
 #define BATTERY_LEVEL_CHAR_UUID 0x2A19
 
-static const esp_ble_adv_params_t adv_params = {
+static esp_ble_adv_params_t adv_params = {
     .adv_int_min = 0x20,
     .adv_int_max = 0x40,
     .adv_type = ADV_TYPE_IND,
@@ -174,9 +172,9 @@ static void sensor_task(void *arg) {
         }
         if (gl_connected && gl_batt_notify_en && gl_batt_service_handle != 0) {
             uint8_t battery_level = read_batt_level();
-            if (abs(battery_level - last_battery >= 5)) {
+            if (abs(battery_level - last_battery) >= 5) {
                 esp_err_t e= esp_ble_gatts_send_indicate(gl_gatts_if, gl_conn_id, gl_batt_value_handle, sizeof(battery_level), &battery_level, false);
-                printf("Battery notify: %dd%% -> %s\n", battery_level, esp_err_to_name(e));
+                printf("Battery notify: %d%% -> %s\n", battery_level, esp_err_to_name(e));
                 last_battery = battery_level;
             }
         }
@@ -299,7 +297,7 @@ static void gatts_cb(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble
                 .attr_len = strlen(description),
                 .attr_value = (uint8_t*)description
             };
-            err = esp_ble_gatts_add_char_descr(gl_service_handle, &user_descr_uuid, ESP_GATT_PERM_READ, &user_descr_val, NULL);
+            err = esp_ble_gatts_add_char_descr(service_handle, &user_descr_uuid, ESP_GATT_PERM_READ, &user_descr_val, NULL);
             if (err != ESP_OK) {
                 printf("add_user description failed : %s\n", esp_err_to_name(err));
             } else {
@@ -309,87 +307,83 @@ static void gatts_cb(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble
         break;
 
     case ESP_GATTS_ADD_CHAR_DESCR_EVT:
-        printf("ADD_DESCR_EVT, hande %d\n", param->add_char_descr.attr_handle);
-        if (param->add_char_descr.char_uuid.len == ESP_UUID_LEN_16) {
-            uint16_t char_uuid = param->add_char_descr.char_uuid.uuid.uuid16;
+		printf("ADD_DESCR_EVT, handle %d\n", param->add_char_descr.attr_handle);
+    
+    // Track based on order: User Description added first, then CCCD
+		if (led_char_added && !led_user_desc_added) {
+			led_user_desc_added = true;
+			printf("LED user description added\n");
         
-            if (char_uuid == CHAR_UUID_LED && !led_user_desc_added) {
-                led_user_desc_added = true;
-                printf("LED User description added\n");
-            
-                esp_bt_uuid_t cccd_uuid;
-                make_uuid16(&cccd_uuid, ESP_GATT_UUID_CHAR_CLIENT_CONFIG);
-                esp_attr_value_t cccd_val = {
-                    .attr_max_len = 2,
-                    .attr_len = 2,
-                    .attr_value = (uint8_t[]){0x00,0x00}
-            };
-            err = esp_ble_gatts_add_char_descr(gl_service_handle, &cccd_uuid, ESP_GATT_PERM_READ_ENC_MITM | ESP_GATT_PERM_WRITE_ENC_MITM, &cccd_val, NULL);
-            printf("adding LED CCCD: %s\n",esp_err_to_name(err));
-
-        } else if (char_uuid == CHAR_UUID_DHT && !dht_user_desc_added) {
-            dht_user_desc_added = true;
-            printf("DHT user description added\n");
-            
-            // Add CCCD for DHT
-            esp_bt_uuid_t cccd_uuid;
-            make_uuid16(&cccd_uuid, ESP_GATT_UUID_CHAR_CLIENT_CONFIG);
-            esp_attr_value_t cccd_val = {
-                .attr_max_len = 2,
-                .attr_len = 2,
-                .attr_value = (uint8_t[]){0x00, 0x00}
-            };
-            err = esp_ble_gatts_add_char_descr(gl_service_handle, &cccd_uuid, ESP_GATT_PERM_READ_ENC_MITM | ESP_GATT_PERM_WRITE_ENC_MITM, &cccd_val, NULL);
-            printf("adding DHT CCCD: %s\n", esp_err_to_name(err));
-            
-        } else if (char_uuid == BATTERY_LEVEL_CHAR_UUID && !battery_user_desc_added) {
-            battery_user_desc_added = true;
-            printf("Battery user description added\n");
-            
-            // Add CCCD for Battery
-            esp_bt_uuid_t cccd_uuid;
-            make_uuid16(&cccd_uuid, ESP_GATT_UUID_CHAR_CLIENT_CONFIG);
-            esp_attr_value_t cccd_val = {
-                .attr_max_len = 2,
-                .attr_len = 2,
-                .attr_value = (uint8_t[]){0x00, 0x00}
-            };
-            err = esp_ble_gatts_add_char_descr(gl_batt_service_handle, &cccd_uuid, ESP_GATT_PERM_READ_ENC_MITM | ESP_GATT_PERM_WRITE_ENC_MITM, &cccd_val, NULL);
-            printf("adding Battery CCCD: %s\n", esp_err_to_name(err));
-        }
+        // Now add CCCD descriptor for LED
+			esp_bt_uuid_t cccd_uuid;
+			make_uuid16(&cccd_uuid, ESP_GATT_UUID_CHAR_CLIENT_CONFIG);
+			esp_attr_value_t cccd_val = {
+				.attr_max_len = 2,
+				.attr_len = 2,
+				.attr_value = (uint8_t[]){0x00, 0x00}
+			};
+			err = esp_ble_gatts_add_char_descr(gl_service_handle, &cccd_uuid, ESP_GATT_PERM_READ_ENC_MITM | ESP_GATT_PERM_WRITE_ENC_MITM, &cccd_val, NULL);
+			printf("adding LED CCCD: %s\n", esp_err_to_name(err));
         
-    } else {
-        // This is CCCD descriptor - map handles
-        if (led_char_added && led_user_desc_added && !led_cccd_added) {
-            gl_led_cccd_handle = param->add_char_descr.attr_handle;
-            led_cccd_added = true;
-            printf("mapped led_cccd_handle = %d\n", gl_led_cccd_handle);
-            
-            //add DHT characteristic setelah LED complete
-            esp_bt_uuid_t char_uuid;
-            make_uuid16(&char_uuid, CHAR_UUID_DHT);
-            esp_attr_value_t char_val = {
-                .attr_max_len = 4,
-                .attr_len = 4,
-                .attr_value = (uint8_t[]){0x00,0x00,0x00,0x00}
-            };
-            err = esp_ble_gatts_add_char(gl_service_handle, &char_uuid, ESP_GATT_PERM_READ, ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_NOTIFY, &char_val, NULL);
-            printf("add char DHT -> %s\n", esp_err_to_name(err));
-            
-        } else if (gl_dht_value_handle != 0 && dht_user_desc_added && gl_dht_cccd_handle == 0) {
-            gl_dht_cccd_handle = param->add_char_descr.attr_handle;
-            printf("mapped dht_cccd_handle = %d\n", gl_dht_cccd_handle);
-            
-        } else if (batt_char_added && battery_user_desc_added && !batt_cccd_added) {
-            gl_batt_cccd_handle = param->add_char_descr.attr_handle;
-            batt_cccd_added = true;
-            printf("mapped battery_cccd_handle = %d\n", gl_batt_cccd_handle);
-            
-        } else {
-            printf("descriptor mapping ambiguous / ignored\n");
-        }
-    }
-        break;
+		} else if (led_char_added && led_user_desc_added && !led_cccd_added) {
+			gl_led_cccd_handle = param->add_char_descr.attr_handle;
+			led_cccd_added = true;
+			printf("mapped led_cccd_handle = %d\n", gl_led_cccd_handle);
+        
+        // Add DHT characteristic after LED complete
+			esp_bt_uuid_t char_uuid;
+			make_uuid16(&char_uuid, CHAR_UUID_DHT);
+			esp_attr_value_t char_val = {
+				.attr_max_len = 4,
+				.attr_len = 4,
+				.attr_value = (uint8_t[]){0x00, 0x00, 0x00, 0x00}
+			};
+			err = esp_ble_gatts_add_char(gl_service_handle, &char_uuid, ESP_GATT_PERM_READ, ESP_GATT_CHAR_PROP_BIT_READ | ESP_GATT_CHAR_PROP_BIT_NOTIFY, &char_val, NULL);
+			printf("add char DHT -> %s\n", esp_err_to_name(err));
+        
+		} else if (gl_dht_value_handle != 0 && !dht_user_desc_added) {
+			dht_user_desc_added = true;
+			printf("DHT user description added\n");
+        
+        // Add CCCD for DHT
+			esp_bt_uuid_t cccd_uuid;
+			make_uuid16(&cccd_uuid, ESP_GATT_UUID_CHAR_CLIENT_CONFIG);
+			esp_attr_value_t cccd_val = {
+				.attr_max_len = 2,
+				.attr_len = 2,
+				.attr_value = (uint8_t[]){0x00, 0x00}
+			};
+			err = esp_ble_gatts_add_char_descr(gl_service_handle, &cccd_uuid, ESP_GATT_PERM_READ_ENC_MITM | ESP_GATT_PERM_WRITE_ENC_MITM, &cccd_val, NULL);
+			printf("adding DHT CCCD: %s\n", esp_err_to_name(err));
+        
+		} else if (gl_dht_value_handle != 0 && dht_user_desc_added && gl_dht_cccd_handle == 0) {
+			gl_dht_cccd_handle = param->add_char_descr.attr_handle;
+			printf("mapped dht_cccd_handle = %d\n", gl_dht_cccd_handle);
+        
+		} else if (batt_char_added && !battery_user_desc_added) {
+			battery_user_desc_added = true;
+			printf("Battery user description added\n");
+        
+        // Add CCCD for Battery
+			esp_bt_uuid_t cccd_uuid;
+			make_uuid16(&cccd_uuid, ESP_GATT_UUID_CHAR_CLIENT_CONFIG);
+			esp_attr_value_t cccd_val = {
+				.attr_max_len = 2,
+				.attr_len = 2,
+				.attr_value = (uint8_t[]){0x00, 0x00}
+			};
+			err = esp_ble_gatts_add_char_descr(gl_batt_service_handle, &cccd_uuid, ESP_GATT_PERM_READ_ENC_MITM | ESP_GATT_PERM_WRITE_ENC_MITM, &cccd_val, NULL);
+			printf("adding Battery CCCD: %s\n", esp_err_to_name(err));
+        
+		} else if (batt_char_added && battery_user_desc_added && !batt_cccd_added) {
+			gl_batt_cccd_handle = param->add_char_descr.attr_handle;
+			batt_cccd_added = true;
+			printf("mapped battery_cccd_handle = %d\n", gl_batt_cccd_handle);
+        
+		} else {
+			printf("descriptor mapping ambiguous / ignored\n");
+		}
+		break;
 
     case ESP_GATTS_START_EVT:
         printf("SERVICE START_EVT\n");
@@ -417,7 +411,7 @@ static void gatts_cb(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble
         gl_connected = true;
         gl_led_notify_en = false; //reset notify new conection
         gl_dht_notify_en = false;
-
+		gl_batt_notify_en = false;
         esp_ble_set_encryption(param->connect.remote_bda, ESP_BLE_SEC_ENCRYPT_MITM);
         break;
 
@@ -426,6 +420,7 @@ static void gatts_cb(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble
         gl_connected = false;
         gl_dht_notify_en = false;
         gl_led_notify_en = false;
+        gl_batt_notify_en = false;
         gl_conn_id = 0;
         //restart adv   
         esp_ble_gap_start_advertising(&adv_params);
@@ -519,7 +514,7 @@ static void gatts_cb(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble
             rsp.attr_value.len = 1;
             rsp.attr_value.value[0] = read_batt_level();
             esp_ble_gatts_send_response(gatts_if, param->read.conn_id, param->read.trans_id, ESP_GATT_OK, &rsp);
-            printf("Battery read response:%d%%n", rsp.attr_value.value[0]);
+            printf("Battery read response:%d%%\n", rsp.attr_value.value[0]);
         }
         break;
 
