@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include "esp_bt_main.h"
 #include "esp_gatt_defs.h"
@@ -99,13 +100,17 @@ static void gatts_cb(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_if, esp_ble
         case ESP_GATTS_REG_EVT:
             printf("REGISTER_APP_EVT\n");
             esp_ble_gap_config_adv_data(&adv_data);
+            esp_ble_gap_set_device_name("ACAB!");
             esp_ble_gatts_create_attr_tab(gatt_db, gatts_if, 4, 0);
             break;
 
         case ESP_GATTS_CREAT_ATTR_TAB_EVT:
             if (param->add_attr_tab.status == ESP_GATT_OK) {
+                service_handle = param->add_attr_tab.handles[0];
                 adc_char_handle = param->add_attr_tab.handles[2];
                 esp_ble_gatts_start_service(service_handle);       
+            } else {
+                printf("create atribute table failed, error 0x%x\n", param->add_attr_tab.status);
             }
             break;
 
@@ -149,7 +154,7 @@ void adc_task(void *arg) {
                     adc_char_handle, 
                     sizeof(value), 
                     value,
-                    false);//false = notyfy, true = indicate
+                    true);//false = notyfy, true = indicate
             printf("Level sent : %d\n", wtr_val);
         }
         vTaskDelay(pdMS_TO_TICKS(1000));
