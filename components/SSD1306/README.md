@@ -27,7 +27,7 @@ This component is a basic driver for SSD1306 OLED I2C Display using ESP-IDF.
 
 
     while (1) {
-        ssd1306_clear_buffer();
+        ssd1306_clear();
         ssd1306_draw_string(0, 0, "A C A B ! !");
         double temp = 123.45;
         char buf[16]; 
@@ -43,7 +43,7 @@ This component is a basic driver for SSD1306 OLED I2C Display using ESP-IDF.
 | Function | Description |
 | --- | --- |
 | `ssd1306_init(ssd1306_conf_t *conf)` | Init SSD1306 display & I2C |
-| `ssd1306_clear_buffer()`| Clear display |
+| `ssd1306_clear()`| Clear display |
 | `ssd1306_draw_string(int x, int y, const char* str)` | Display character string |
 | `ssd1306_update_display()` | Update character / string in display |
 | `ssd1306_draw_rect(int x, int y, int w, int h, bool color)` | Draw outline rectangular |
