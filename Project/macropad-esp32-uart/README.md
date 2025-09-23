@@ -30,7 +30,6 @@ Communication between ESP32 and the host via **UART**
     - `vnstat` : Network usage monitoring (Linux only)
 
 ## Pin Wiring
-|---|---|
 | PIN | ESP32 |
 |---|---|
 | `CLK_PIN` | 32 |
